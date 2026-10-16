@@ -13,7 +13,8 @@
     * { box-sizing: border-box; }
     body { margin: 0; min-height: 100vh; color: var(--ink); background: var(--canvas) repeating-linear-gradient(135deg, transparent 0 26px, rgba(23,74,48,.025) 26px 27px); font-family: "DM Sans", sans-serif; }
     .topbar { min-height: 68px; display: flex; align-items: center; justify-content: space-between; padding: 0 max(24px, calc((100vw - 1040px) / 2)); border-bottom: 1px solid var(--line); background: rgba(255,255,255,.85); }
-    .wordmark { font-family: "Manrope", sans-serif; font-size: 18px; font-weight: 800; }
+    .wordmark { display: flex; align-items: center; gap: 10px; font-family: "Manrope", sans-serif; font-size: 18px; font-weight: 800; text-transform: uppercase; }
+    .play-symbol { width: 20px; height: 22px; flex: none; }
     .demo-tag, .eyebrow { color: var(--green); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
     main { width: min(100% - 40px, 960px); margin: 58px auto 72px; }
     .breadcrumb { margin-bottom: 22px; color: var(--muted); font-size: 12px; }
@@ -22,20 +23,16 @@
     .app-icon { display: grid; width: 88px; aspect-ratio: 1; place-items: center; border: 1px solid #c6e6d1; border-radius: 22px; color: #176b45; background: var(--mint); font-family: "Manrope", sans-serif; font-size: 42px; font-weight: 800; }
     h1 { margin: 3px 0 2px; font-family: "Manrope", sans-serif; font-size: clamp(27px, 5vw, 36px); line-height: 1.15; }
     .publisher { margin: 0; color: var(--green); font-weight: 600; }
-    .install-button { min-width: 150px; min-height: 48px; padding: 0 24px; border: 0; border-radius: 7px; color: white; background: var(--green); font: 700 15px "DM Sans", sans-serif; cursor: pointer; transition: background-color .18s ease, transform .18s ease; }
+    .install-button { display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 150px; min-height: 48px; padding: 0 24px; border: 0; border-radius: 7px; color: white; background: var(--green); font: 700 15px "DM Sans", sans-serif; cursor: pointer; transition: background-color .18s ease, transform .18s ease; }
     .install-button:hover:not(:disabled) { background: var(--green-dark); transform: translateY(-1px); }
     .install-button:focus-visible { outline: 3px solid #8dcba6; outline-offset: 3px; }
     .install-button:disabled { cursor: default; opacity: .8; }
+    .install-spinner { display: none; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.4); border-top-color: white; border-radius: 50%; }
+    .install-button.is-loading .install-spinner { display: inline-block; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
     .metadata { display: flex; flex-wrap: wrap; gap: 12px 24px; margin: 28px 0 0 108px; color: var(--muted); font-size: 13px; }
     .metadata span + span { padding-left: 24px; border-left: 1px solid var(--line); }
     .description { max-width: 630px; margin: 34px 0 0 108px; color: #44534a; font-size: 16px; line-height: 1.7; }
-    .install-state { display: none; margin: 20px 0 0 108px; }
-    .install-state.visible { display: block; }
-    .status { min-height: 20px; margin: 0 0 9px; color: var(--muted); font-size: 13px; }
-    progress { display: block; width: 100%; max-width: 480px; height: 8px; overflow: hidden; border: 0; border-radius: 8px; background: #e8eee9; accent-color: var(--green); }
-    progress::-webkit-progress-bar { border-radius: 8px; background: #e8eee9; }
-    progress::-webkit-progress-value { border-radius: 8px; background: var(--green); }
-    progress::-moz-progress-bar { border-radius: 8px; background: var(--green); }
     .details { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 42px; padding-top: 28px; border-top: 1px solid var(--line); }
     h2 { margin: 0 0 10px; font-family: "Manrope", sans-serif; font-size: 18px; }
     .details p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
@@ -48,7 +45,7 @@
       .app-icon { width: 68px; border-radius: 17px; font-size: 34px; }
       h1 { font-size: 27px; }
       .install-button { grid-column: 1 / -1; width: 100%; margin-top: 5px; }
-      .metadata, .description, .install-state { margin-left: 0; }
+      .metadata, .description { margin-left: 0; }
       .metadata { gap: 10px 14px; margin-top: 24px; }
       .metadata span + span { padding-left: 14px; }
       .description { margin-top: 24px; font-size: 15px; }
@@ -58,7 +55,17 @@
   </style>
 </head>
 <body>
-  <header class="topbar"><div class="wordmark">play store</div></header>
+  <header class="topbar">
+    <div class="wordmark">
+      <svg class="play-symbol" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 2.5v19L13 12z" fill="#4285F4" />
+        <path d="M3 2.5 13 12l4-3.6z" fill="#34A853" />
+        <path d="M3 21.5 13 12l4 3.6z" fill="#FBBC04" />
+        <path d="m17 8.4 4 2.3c1 .6 1 2 0 2.6l-4 2.3L13 12z" fill="#EA4335" />
+      </svg>
+      <span>PLAY STORE</span>
+    </div>
+  </header>
   <main>
     <nav class="breadcrumb" aria-label="Navegação">Aplicativos <span aria-hidden="true">/</span> Produtividade</nav>
     <article class="product">
@@ -69,42 +76,26 @@
           <h1>Meu INSS - Central de Serviços</h1>
           <p class="publisher">Serviços e informações do Brasil</p>
         </div>
-        <button class="install-button" id="install-button" type="button">Instalar</button>
+        <button class="install-button" id="install-button" type="button"><span>Instalar</span><span class="install-spinner" aria-hidden="true"></span></button>
       </div>
       <div class="metadata" aria-label="Informações do aplicativo"><span aria-label="Nota: 4,8 de 5 estrelas">★ 4,8</span><span>Classificação indicativa: Livre</span><span>12 MB</span></div>
       <p class="description">Organize ideias, listas e lembretes em um só lugar. Uma maneira simples de manter o seu dia em ordem.</p>
-      <div class="install-state" id="install-state" aria-live="polite"><p class="status" id="status">Preparando instalação...</p><progress id="progress" value="0" max="100" aria-label="Progresso da instalação"></progress></div>
       <section class="details">
-        <div><h2>Sobre este aplicativo</h2><p>Uma página demonstrativa de apresentação de aplicativo, adaptada para funcionar no navegador em computadores e celulares.</p></div>
-        <div><h2>Informações</h2><p>Esta demonstração não é um serviço oficial do INSS. O botão apenas anima uma barra de progresso; nenhum aplicativo é baixado ou instalado.</p></div>
+        <div><h2>Sobre este aplicativo</h2><p>Consultas, extratos, agendamentos e serviços: um canal de contato entre o INSS e os cidadãos.</p></div>
+        <div><h2>Segurança de dados</h2><p>Este protótipo não coleta nem compartilha dados pessoais. Em um aplicativo real, o desenvolvedor deve informar quais dados são coletados e como são protegidos.</p></div>
       </section>
     </article>
   </main>
   <script>
     const installButton = document.querySelector("#install-button");
-    const installState = document.querySelector("#install-state");
-    const statusText = document.querySelector("#status");
-    const progressBar = document.querySelector("#progress");
 
     installButton.addEventListener("click", () => {
-      let progress = 0;
       installButton.disabled = true;
-      installButton.textContent = "Instalando...";
-      installState.classList.add("visible");
-      statusText.textContent = "Preparando demonstração...";
-
-      const timer = window.setInterval(() => {
-        progress = Math.min(progress + 10, 100);
-        progressBar.value = progress;
-        statusText.textContent = progress < 100
-          ? "Simulando instalação..."
-          : "Demonstração concluída. Nenhum app foi instalado.";
-
-        if (progress === 100) {
-          window.clearInterval(timer);
-          installButton.textContent = "Concluído";
-        }
-      }, 180);
+      installButton.classList.add("is-loading");
+      window.setTimeout(() => {
+        installButton.classList.remove("is-loading");
+        installButton.disabled = false;
+      }, 1800);
     });
   </script>
 </body>
