@@ -20,12 +20,7 @@
     .breadcrumb { margin-bottom: 22px; color: var(--muted); font-size: 12px; }
     .product { padding: clamp(24px, 5vw, 48px); border: 1px solid var(--line); border-radius: 10px; background: var(--paper); box-shadow: 0 18px 50px rgba(31,56,40,.06); }
     .product-head { display: grid; grid-template-columns: 88px 1fr auto; align-items: center; gap: 20px; }
-    .app-icon { position: relative; display: grid; width: 88px; aspect-ratio: 1; place-items: center; overflow: hidden; border: 1px solid #c6e6d1; border-radius: 22px; color: #176b45; background: var(--mint); font-family: "Manrope", sans-serif; font-size: 42px; font-weight: 800; cursor: pointer; }
-    .app-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .app-icon img[hidden] { display: none; }
-    .photo-hint { position: absolute; right: 0; bottom: 0; left: 0; padding: 4px 2px; color: white; background: rgba(0,0,0,.58); font: 600 10px "DM Sans", sans-serif; text-align: center; }
-    .photo-input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; clip-path: inset(50%); border: 0; }
-    .photo-input:focus-visible + .app-icon { outline: 3px solid #8dcba6; outline-offset: 3px; }
+    .app-icon { display: grid; width: 88px; aspect-ratio: 1; place-items: center; border: 1px solid #c6e6d1; border-radius: 22px; color: #176b45; background: var(--mint); font-family: "Manrope", sans-serif; font-size: 42px; font-weight: 800; }
     h1 { margin: 3px 0 2px; font-family: "Manrope", sans-serif; font-size: clamp(27px, 5vw, 36px); line-height: 1.15; }
     .publisher { margin: 0; color: var(--green); font-weight: 600; }
     .install-button { display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 150px; min-height: 48px; padding: 0 24px; border: 0; border-radius: 7px; color: white; background: var(--green); font: 700 15px "DM Sans", sans-serif; cursor: pointer; transition: background-color .18s ease, transform .18s ease; }
@@ -77,12 +72,7 @@
     <nav class="breadcrumb" aria-label="Navegação">Aplicativos <span aria-hidden="true">/</span> Produtividade</nav>
     <article class="product">
       <div class="product-head">
-        <input class="photo-input" id="app-photo" type="file" accept="image/*" aria-label="Escolher foto do aplicativo">
-        <label class="app-icon" for="app-photo">
-          <span id="photo-placeholder">I</span>
-          <img id="photo-preview" alt="" hidden>
-          <span class="photo-hint">Escolher foto</span>
-        </label>
+        <div class="app-icon" aria-hidden="true">I</div>
         <div>
           <div class="eyebrow">Aplicativo em destaque</div>
           <h1>Meu INSS - Central de Serviços</h1>
@@ -100,10 +90,6 @@
   </main>
   <script>
     const installButton = document.querySelector("#install-button");
-    const photoInput = document.querySelector("#app-photo");
-    const photoPreview = document.querySelector("#photo-preview");
-    const photoPlaceholder = document.querySelector("#photo-placeholder");
-
     installButton.addEventListener("click", () => {
       installButton.disabled = true;
       installButton.classList.add("is-loading");
@@ -111,18 +97,6 @@
         installButton.classList.remove("is-loading");
         installButton.disabled = false;
       }, 1800);
-    });
-
-    photoInput.addEventListener("change", () => {
-      const photo = photoInput.files[0];
-      if (!photo) return;
-
-      const previousPreview = photoPreview.src;
-      photoPreview.src = URL.createObjectURL(photo);
-      photoPreview.hidden = false;
-      photoPlaceholder.hidden = true;
-
-      if (previousPreview.startsWith("blob:")) URL.revokeObjectURL(previousPreview);
     });
   </script>
 </body>
